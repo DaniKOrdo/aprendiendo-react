@@ -1,0 +1,3 @@
+packpackage-lock.json
+node_modules
+projects/**/dist
