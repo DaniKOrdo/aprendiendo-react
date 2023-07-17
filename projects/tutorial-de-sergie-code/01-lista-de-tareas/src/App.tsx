@@ -5,8 +5,8 @@ import FormTodo from "./components/FormTodo";
 
 const todoArrayList: Todo[] = [
   { id: 0, name: "Create Vite + React Project", done: true },
-  { id: 1, name: "npm intall", done: true },
-  { id: 2, name: "npm dev", done: false },
+  { id: 1, name: "npm install", done: true },
+  { id: 2, name: "do testing", done: false },
 ];
 
 function App() {

@@ -6,16 +6,22 @@ function TodoList({ todoList, handleCheck, handleDelete }) {
         <li
           id={id.toString()}
           key={id}
-          onClick={() => handleCheck(id.toString())}
-          className={`flex items-center justify-between p-4 my-2 bg-gray-600 rounded cursor-pointer hover:bg-gray-500 ${done ? "line-through text-gray-400" : ""}`}
+          className={`flex items-center justify-between p-4 my-2 bg-gray-600 rounded hover:bg-gray-500 ${
+            done ? "line-through text-gray-400" : ""
+          }`}
         >
           <input
             type="checkbox"
             checked={done}
-            className="mr-2 w-4 h-4"
+            className="mr-2 w-4 h-4 cursor-pointer"
             onChange={() => handleCheck(id.toString())}
           />
-          <span className="flex-grow truncate">{name}</span>
+          <span
+            className="flex-grow truncate cursor-pointer"
+            onClick={() => handleCheck(id.toString())}
+          >
+            {name}
+          </span>
           <Trash onClick={() => handleDelete(id.toString())} />
         </li>
       ))}
