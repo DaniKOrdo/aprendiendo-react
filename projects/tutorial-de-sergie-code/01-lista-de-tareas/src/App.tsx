@@ -9,22 +9,20 @@ const todoArrayList = [
 function App() {
   const [todoList, setTodoList] = useState(todoArrayList);
 
-  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+  const addTodo = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const inputValue = event.target.elements[0].value.trim();
     if (!inputValue) return;
-    const id = todoList.length;
-    setTodoList([...todoList, { id: id, name: inputValue, done: false }]);
-    event.target.elements[0].value = ''
+    const lastId = todoList.length > 0 ? todoList[todoList.length - 1].id : 1;
+    setTodoList([...todoList, { id: lastId + 1, name: inputValue, done: false }]);
+    event.target.elements[0].value = '';
   };
 
-  const handleCheck = (event) => {
-    const id = event.target.id;
-    const checked = event.target.firstChild.checked;
-
-    setTodoList(todoList.map(todo => todo.id.toString() === id ? {...todo, done: !checked} : todo));
-    event.target.firstChild.checked = !checked; // TODO: Check this
-    console.log(todoList);
+  const handleCheck = (id: string) => {
+    const newTodoList = todoList.map((todo) =>
+      todo.id.toString() === id ? { ...todo, done: !todo.done } : todo
+    );
+    setTodoList(newTodoList);
   };
 
   return (
@@ -32,17 +30,22 @@ function App() {
       <h1 className="text-4xl p-6">To-Do List</h1>
       <ul className="w-1/2">
         {todoList.map(({ id, name, done }) => (
-          <li id={id.toString()} key={id} onClick={handleCheck}>
+          <li
+            id={id.toString()}
+            key={id}
+            onClick={() => handleCheck(id.toString())}
+          >
             <input
               type="checkbox"
-              defaultChecked={done}
+              checked={done}
               className="mr-2 w-4 h-4"
+              onChange={() => handleCheck(id.toString())}
             />
             {name}
           </li>
         ))}
       </ul>
-      <form className="flex p-6" onSubmit={handleSubmit}>
+      <form className="flex p-6" onSubmit={addTodo}>
         <input
           type="text"
           className="rounded p-4"
