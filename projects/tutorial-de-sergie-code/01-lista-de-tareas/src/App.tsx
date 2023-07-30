@@ -39,6 +39,11 @@ function App() {
       todo.id === id ? { ...todo, done: !todo.done } : todo
     );
     setTodoList(newTodoList);
+
+    if (newTodoList.find((todo) => todo.id === id)?.done) {
+      const audio = new Audio("/sounds/success.mp3");
+      audio.play();
+    }
   };
 
   const handleDelete = (id: number) => {
@@ -48,7 +53,7 @@ function App() {
     setTodoList(updatedTodoList);
 
     setTimeout(() => {
-      const newTodoList = updatedTodoList.filter((todo) => todo.id !== id);
+      const newTodoList = todoList.filter((todo) => todo.id !== id);
       setTodoList(newTodoList);
     }, 800);
   };
