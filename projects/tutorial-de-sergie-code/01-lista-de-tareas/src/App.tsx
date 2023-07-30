@@ -12,7 +12,11 @@ const todoArrayList: Todo[] = [
 const todoListFromLocalStorage = localStorage.getItem("todoList");
 
 function App() {
-  const [todoList, setTodoList] = useState(todoListFromLocalStorage ? JSON.parse(todoListFromLocalStorage) : todoArrayList);
+  const [todoList, setTodoList] = useState(
+    todoListFromLocalStorage
+      ? JSON.parse(todoListFromLocalStorage)
+      : todoArrayList
+  );
 
   useEffect(() => {
     localStorage.setItem("todoList", JSON.stringify(todoList));
@@ -23,7 +27,10 @@ function App() {
     const inputValue = event.target.elements[0].value.trim();
     if (!inputValue) return;
     const lastId = todoList.length > 0 ? todoList[todoList.length - 1].id : 1;
-    setTodoList([ ...todoList, { id: lastId + 1, name: inputValue, done: false }]);
+    setTodoList([
+      ...todoList,
+      { id: lastId + 1, name: inputValue, done: false },
+    ]);
     event.target.elements[0].value = "";
   };
 
@@ -35,8 +42,15 @@ function App() {
   };
 
   const handleDelete = (id: number) => {
-    const newTodoList = todoList.filter((todo) => todo.id !== id);
-    setTodoList(newTodoList);
+    const updatedTodoList = todoList.map((todo) =>
+      todo.id === id ? { ...todo, isDeleting: true } : todo
+    );
+    setTodoList(updatedTodoList);
+
+    setTimeout(() => {
+      const newTodoList = updatedTodoList.filter((todo) => todo.id !== id);
+      setTodoList(newTodoList);
+    }, 800);
   };
 
   return (
