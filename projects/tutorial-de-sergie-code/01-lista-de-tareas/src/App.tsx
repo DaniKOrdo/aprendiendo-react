@@ -1,6 +1,6 @@
-import { useState } from "react";
-import TodoList from "./components/TodoList";
+import { useEffect, useState } from "react";
 import { Todo } from "./types";
+import TodoList from "./components/TodoList";
 import FormTodo from "./components/FormTodo";
 
 const todoArrayList: Todo[] = [
@@ -9,35 +9,38 @@ const todoArrayList: Todo[] = [
   { id: 2, name: "do testing", done: false },
 ];
 
+const todoListFromLocalStorage = localStorage.getItem("todoList");
+
 function App() {
-  const [todoList, setTodoList] = useState(todoArrayList);
+  const [todoList, setTodoList] = useState(todoListFromLocalStorage ? JSON.parse(todoListFromLocalStorage) : todoArrayList);
+
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+  }, [todoList]);
 
   const addTodo = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const inputValue = event.target.elements[0].value.trim();
     if (!inputValue) return;
     const lastId = todoList.length > 0 ? todoList[todoList.length - 1].id : 1;
-    setTodoList([
-      ...todoList,
-      { id: lastId + 1, name: inputValue, done: false },
-    ]);
+    setTodoList([ ...todoList, { id: lastId + 1, name: inputValue, done: false }]);
     event.target.elements[0].value = "";
   };
 
-  const handleCheck = (id: string) => {
+  const handleCheck = (id: number) => {
     const newTodoList = todoList.map((todo) =>
-      todo.id.toString() === id ? { ...todo, done: !todo.done } : todo
+      todo.id === id ? { ...todo, done: !todo.done } : todo
     );
     setTodoList(newTodoList);
   };
 
-  const handleDelete = (id: string) => {
-    const newTodoList = todoList.filter((todo) => todo.id.toString() !== id);
+  const handleDelete = (id: number) => {
+    const newTodoList = todoList.filter((todo) => todo.id !== id);
     setTodoList(newTodoList);
   };
 
   return (
-    <div className="container flex flex-col items-center mx-auto text-2xl">
+    <div className="container flex flex-col items-center mx-auto text-2xl max-w-screen-md px-4">
       <h1 className="text-4xl p-6">To-Do List</h1>
       <TodoList
         todoList={todoList}
