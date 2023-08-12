@@ -1,20 +1,18 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import Trash from "../icons/Trash";
 
 function TodoList({ todoList, handleCheck, handleDelete }) {
+  const [animationParent] = useAutoAnimate();
+
   return (
-    <ul className="w-full ">
-      {todoList.map(({ id, name, done, isDeleting }) => (
+    <ul className="w-full" ref={animationParent}>
+      {todoList.map(({ id, name, done }) => (
         <li
           id={id}
           key={id}
           className={`flex items-center justify-between p-4 my-2 bg-gray-600 rounded hover:bg-gray-500 transition-colors duration-300 ${
             done ? "line-through text-gray-400" : ""
           }
-            ${
-              isDeleting
-                ? "animate-fade-up animate-reverse bg-gray-700"
-                : "animate-fade-down "
-            }
           }`}
         >
           <div className="round">

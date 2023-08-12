@@ -47,15 +47,8 @@ function App() {
   };
 
   const handleDelete = (id: number) => {
-    const updatedTodoList = todoList.map((todo) =>
-      todo.id === id ? { ...todo, isDeleting: true } : todo
-    );
-    setTodoList(updatedTodoList);
-
-    setTimeout(() => {
-      const newTodoList = todoList.filter((todo) => todo.id !== id);
-      setTodoList(newTodoList);
-    }, 800);
+    const newTodoList = todoList.filter((todo) => todo.id !== id);
+    setTodoList(newTodoList);
   };
 
   return (
