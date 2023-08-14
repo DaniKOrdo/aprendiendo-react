@@ -10,7 +10,7 @@ function TodoList({ todoList, handleCheck, handleDelete }) {
         <li
           id={id}
           key={id}
-          className={`flex items-center justify-between p-4 my-2 bg-gray-600 rounded hover:bg-gray-500 transition-colors duration-300 ${
+          className={`flex items-center justify-between p-4 my-2 bg-gray- rounded hover:bg-gray-800 transition-colors duration-300 ${
             done ? "line-through text-gray-400" : ""
           }
           }`}
@@ -27,6 +27,7 @@ function TodoList({ todoList, handleCheck, handleDelete }) {
           <span
             className="flex-grow truncate cursor-pointer"
             onClick={() => handleCheck(id)}
+            // onDoubleClick={() => handleCheck(id) }
           >
             {name}
           </span>
