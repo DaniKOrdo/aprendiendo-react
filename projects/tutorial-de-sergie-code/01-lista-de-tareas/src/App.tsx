@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Todo } from "./types";
 import TodoList from "./components/TodoList";
 import FormTodo from "./components/FormTodo";
+import DateBar from "./components/DateBar";
 
 const todoArrayList: Todo[] = [
   { id: 0, name: "Create Vite + React Project", done: true },
@@ -52,8 +53,8 @@ function App() {
   };
 
   return (
-    <div className="container flex flex-col items-center mx-auto text-2xl max-w-screen-md px-4">
-      <h1 className="text-4xl p-6">To-Do List</h1>
+    <div className="container flex flex-col items-center mx-auto text-2xl max-w-screen-md px-4 my-2 md:my-20">
+      <DateBar />
       <TodoList
         todoList={todoList}
         handleCheck={handleCheck}
